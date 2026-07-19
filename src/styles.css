@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&family=Readex+Pro:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --color-primary: #2d5a27;
+  --color-primary-light: #3d7a35;
+  --color-primary-dark: #1e3d1a;
+  --color-gold: #c9a84c;
+  --color-gold-light: #e0c56a;
+  --color-cream: #faf7f0;
+  --color-warm: #f5f0e8;
+  --color-brown: #6b4a2e;
+  --color-brown-light: #8b6a4e;
+  font-family: 'Readex Pro', 'Noto Kufi Arabic', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  direction: rtl;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: #ffffff;
+  color: #1a1a1a;
+  font-family: 'Readex Pro', 'Noto Kufi Arabic', sans-serif;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Arabic font for headings */
+.font-arabic {
+  font-family: 'Noto Kufi Arabic', 'Readex Pro', sans-serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-light);
+}
+
+/* WhatsApp badge pulse */
+@keyframes pulse-whatsapp {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.whatsapp-pulse {
+  animation: pulse-whatsapp 2s infinite;
+}
+
+/* Cart badge */
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #e74c3c;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+/* Product card hover */
+.product-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+/* Star rating */
+.star-rating .star {
+  color: #ddd;
+  font-size: 18px;
+}
+.star-rating .star.filled {
+  color: var(--color-gold);
+}
+
+/* Category filter active */
+.category-btn.active {
+  background: var(--color-primary) !important;
+  color: white !important;
+}
+
+/* Mobile menu */
+.mobile-menu-open {
+  overflow: hidden;
+}
+
+/* RTL flip for icons */
+.rtl-flip {
+  transform: scaleX(-1);
+}
