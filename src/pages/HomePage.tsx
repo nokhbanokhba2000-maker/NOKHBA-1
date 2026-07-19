@@ -110,20 +110,31 @@ export function HomePage({ onAddToCart }: HomePageProps) {
             <p className="text-gray-500 font-arabic">تشكيلة واسعة من أجود المنتجات الطبيعية</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Card 1 - Olive Oil */}
-            <div className="bg-cream rounded-2xl p-6 border border-primary/10 hover:border-primary/30 transition-all hover:shadow-lg group">
+            <Link to="/products?category=olive-oil" className="bg-cream rounded-2xl p-6 border border-primary/10 hover:border-primary/30 transition-all hover:shadow-lg group block">
               <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 text-3xl group-hover:scale-110 transition-transform">
                 🫒
               </div>
-              <h3 className="text-lg font-bold text-primary-dark mb-2 font-arabic">عصرة نُخبة</h3>
+              <h3 className="text-lg font-bold text-primary-dark mb-2 font-arabic">زيت الزيتون</h3>
               <p className="text-gray-600 text-sm leading-relaxed font-arabic">
-                زيت الزيتون البكر الممتاز معصورٌ على البارد برائحته النفاذة وفائدته الكاملة.
+                أجود أنواع زيت الزيتون البكر الممتاز من أفضل المزارع المصرية، معصور على البارد للحفاظ على كل العناصر الغذائية والنكهة الأصيلة.
               </p>
-            </div>
+            </Link>
 
-            {/* Card 2 - Farm & Honey */}
-            <div className="bg-cream rounded-2xl p-6 border border-primary/10 hover:border-primary/30 transition-all hover:shadow-lg group">
+            {/* Card 2 - Thyme */}
+            <Link to="/products?category=thyme" className="bg-cream rounded-2xl p-6 border border-primary/10 hover:border-primary/30 transition-all hover:shadow-lg group block">
+              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 text-3xl group-hover:scale-110 transition-transform">
+                🌿
+              </div>
+              <h3 className="text-lg font-bold text-primary-dark mb-2 font-arabic">الزعتر</h3>
+              <p className="text-gray-600 text-sm leading-relaxed font-arabic">
+                زعتر مصري أصيل مخلوط بعناية من أجود أنواع الأعشاب الطبيعية والسمسم المحمص.
+              </p>
+            </Link>
+
+            {/* Card 3 - Farm & Honey */}
+            <Link to="/products?category=honey-dairy" className="bg-cream rounded-2xl p-6 border border-primary/10 hover:border-primary/30 transition-all hover:shadow-lg group block">
               <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 text-3xl group-hover:scale-110 transition-transform">
                 🍯
               </div>
@@ -131,10 +142,10 @@ export function HomePage({ onAddToCart }: HomePageProps) {
               <p className="text-gray-600 text-sm leading-relaxed font-arabic">
                 السمن الفلاحي الأصلي (الجاموسي والبقري) المرمل وعسل النحل الطبيعي النقي بقطفاته الفاخرة وشمع النحل.
               </p>
-            </div>
+            </Link>
 
-            {/* Card 3 - Healthy Bakery */}
-            <div className="bg-cream rounded-2xl p-6 border border-primary/10 hover:border-primary/30 transition-all hover:shadow-lg group">
+            {/* Card 4 - Healthy Bakery */}
+            <Link to="/products?category=healthy-bakery" className="bg-cream rounded-2xl p-6 border border-primary/10 hover:border-primary/30 transition-all hover:shadow-lg group block">
               <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 text-3xl group-hover:scale-110 transition-transform">
                 🍞
               </div>
@@ -142,10 +153,10 @@ export function HomePage({ onAddToCart }: HomePageProps) {
               <p className="text-gray-600 text-sm leading-relaxed font-arabic">
                 العيش كامل الحبة والمخبوزات الصحية المصنوعة بعناية فائقة لغذاء متوازن وجسد حيوي.
               </p>
-            </div>
+            </Link>
 
-            {/* Card 4 - Beauty */}
-            <div className="bg-cream rounded-2xl p-6 border border-primary/10 hover:border-primary/30 transition-all hover:shadow-lg group">
+            {/* Card 5 - Beauty */}
+            <Link to="/products?category=natural-oils" className="bg-cream rounded-2xl p-6 border border-primary/10 hover:border-primary/30 transition-all hover:shadow-lg group block">
               <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 text-3xl group-hover:scale-110 transition-transform">
                 🌸
               </div>
@@ -153,7 +164,18 @@ export function HomePage({ onAddToCart }: HomePageProps) {
               <p className="text-gray-600 text-sm leading-relaxed font-arabic">
                 زيوت طبيعية ومستخلصات عشبية جبلية للعناية بالبشرة والشعر ومستحضرات تجميل آمنة 100%.
               </p>
-            </div>
+            </Link>
+
+            {/* Card 6 - Herbs & Spices */}
+            <Link to="/products?category=herbal" className="bg-cream rounded-2xl p-6 border border-primary/10 hover:border-primary/30 transition-all hover:shadow-lg group block">
+              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 text-3xl group-hover:scale-110 transition-transform">
+                🌶️
+              </div>
+              <h3 className="text-lg font-bold text-primary-dark mb-2 font-arabic">أعشاب وتوابل</h3>
+              <p className="text-gray-600 text-sm leading-relaxed font-arabic">
+                تشكيلة من الأعشاب الطبيعية والتوابل المطحونة الطازجة لإضفاء النكهة الأصيلة على أطباقك.
+              </p>
+            </Link>
           </div>
         </div>
       </section>

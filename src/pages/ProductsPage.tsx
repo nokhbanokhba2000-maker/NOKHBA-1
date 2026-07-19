@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Search, SlidersHorizontal } from "lucide-react";
 import { products } from "../data/site";
 import { ProductCard } from "../components/ProductCard";
@@ -10,7 +11,9 @@ interface ProductsPageProps {
 }
 
 export function ProductsPage({ onAddToCart }: ProductsPageProps) {
-  const [activeCategory, setActiveCategory] = useState("all");
+  const [searchParams] = useSearchParams();
+  const initialCategory = searchParams.get("category") || "all";
+  const [activeCategory, setActiveCategory] = useState(initialCategory);
   const [searchQuery, setSearchQuery] = useState("");
 
   const filtered = products.filter((p) => {
