@@ -176,6 +176,17 @@ export function HomePage({ onAddToCart }: HomePageProps) {
                 تشكيلة من الأعشاب الطبيعية والتوابل المطحونة الطازجة لإضفاء النكهة الأصيلة على أطباقك.
               </p>
             </Link>
+
+            {/* Card 7 - Natural Soap */}
+            <Link to="/products?category=soap" className="bg-cream rounded-2xl p-6 border border-primary/10 hover:border-primary/30 transition-all hover:shadow-lg group block">
+              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 text-3xl group-hover:scale-110 transition-transform">
+                🧼
+              </div>
+              <h3 className="text-lg font-bold text-primary-dark mb-2 font-arabic">الصابون الطبيعي</h3>
+              <p className="text-gray-600 text-sm leading-relaxed font-arabic">
+                صابون طبيعي يدوي الصنع بمكونات عضوية 100% — يغذي البشرة بعمق دون مواد كيميائية قاسية.
+              </p>
+            </Link>
           </div>
         </div>
       </section>
