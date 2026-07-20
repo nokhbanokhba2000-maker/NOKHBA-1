@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Star, Shield, Truck, Leaf, BadgeCheck, MapPin, Play } from "lucide-react";
-import { products, testimonials, whyChooseUs } from "../data/site";
+import { ArrowLeft, Star, Shield, Truck, Leaf, BadgeCheck, MessageCircle, ShoppingCart, Sparkles, Timer, Package, Award } from "lucide-react";
+import { products, testimonials, whyChooseUs, siteConfig } from "../data/site";
 import { ProductCard } from "../components/ProductCard";
 import type { Product } from "../data/site";
 
@@ -12,17 +12,30 @@ interface HomePageProps {
 export function HomePage({ onAddToCart }: HomePageProps) {
   const [activeCategory, setActiveCategory] = useState("all");
 
-  const bestSellers = products.filter((p) => p.badge === "الأكثر مبيعاً" || p.rating >= 5).slice(0, 4);
-  const featuredProducts = activeCategory === "all"
-    ? products.slice(0, 4)
-    : products.filter((p) => p.category === activeCategory).slice(0, 4);
+  const oliveOilProducts = products.filter(p => p.category === "olive-oil").slice(0, 4);
+  const offersProducts = products.filter(p => p.category === "offers").slice(0, 4);
+  const hairOilProducts = products.filter(p => p.category === "hair-oils").slice(0, 4);
+  const naturalOilsProducts = products.filter(p => p.category === "natural-oils").slice(0, 4);
+  const soapProducts = products.filter(p => p.category === "soap").slice(0, 4);
+  const honeyProducts = products.filter(p => p.category === "honey").slice(0, 4);
+  const datesProducts = products.filter(p => p.category === "dates").slice(0, 4);
+  const newArrivals = products.filter(p => p.badge === "جديد").slice(0, 4);
 
-  const categoryTabs = [
-    { id: "all", label: "الكل" },
-    { id: "olive-oil", label: "زيوت زيتون" },
-    { id: "honey-dairy", label: "عسل ومنتجات نحل" },
-    { id: "ghee", label: "سمن فلاحي" },
-    { id: "natural-oils", label: "زيوت طبيعية" },
+  const topSelling = [...products].sort((a, b) => b.reviews - a.reviews).slice(0, 8);
+
+  const featuredCategories = [
+    { id: "olive-oil", label: "زيت زيتون بكر ممتاز", icon: "🫒", desc: "أجود أنواع زيت الزيتون البكر الممتاز من مطروح وسيوة، معصور على البارد", color: "from-green-500/20 to-yellow-500/20", count: products.filter(p => p.category === "olive-oil").length },
+    { id: "offers", label: "العروض و الخصومات", icon: "🏷️", desc: "عروض وتخفيضات مذهلة على منتجاتنا المختارة", color: "from-red-500/20 to-orange-500/20", count: products.filter(p => p.category === "offers").length },
+    { id: "hair-oils", label: "زيوت الشعر الخطير", icon: "💎", desc: "مجموعات متكاملة للعناية بالشعر من أشهر الماركات", color: "from-purple-500/20 to-pink-500/20", count: products.filter(p => p.category === "hair-oils").length },
+    { id: "natural-oils", label: "زيوت طبيعية", icon: "🫗", desc: "مجموعة واسعة من الزيوت الطبيعية للعناية بالبشرة والشعر", color: "from-amber-500/20 to-orange-500/20", count: products.filter(p => p.category === "natural-oils").length },
+    { id: "cosmetics", label: "مستحضرات التجميل", icon: "💄", desc: "أجود مستحضرات التجميل والعناية الشخصية", color: "from-pink-500/20 to-rose-500/20", count: products.filter(p => p.category === "cosmetics").length },
+    { id: "soap", label: "صابون العناية بالبشرة", icon: "🧼", desc: "صابون طبيعي يدوي الصنع للعناية ببشرتك", color: "from-blue-500/20 to-cyan-500/20", count: products.filter(p => p.category === "soap").length },
+    { id: "honey", label: "عسل نحل والطحينه", icon: "🍯", desc: "عسل نحل طبيعي وطحينة خام من أفضل المصادر", color: "from-yellow-500/20 to-amber-500/20", count: products.filter(p => p.category === "honey").length },
+    { id: "dates", label: "تمر", icon: "🌴", desc: "تمور فاخرة من واحة سيوه ومطروح", color: "from-brown-500/20 to-amber-500/20", count: products.filter(p => p.category === "dates").length },
+    { id: "spices", label: "التوابل والبهارات", icon: "🌶️", desc: "بهارات وتوابل طبيعية من أجود المحاصيل", color: "from-red-500/20 to-yellow-500/20", count: products.filter(p => p.category === "spices").length },
+    { id: "tea-coffee", label: "شاي الزرده والبن", icon: "🫖", desc: "أجود أنواع الشاي والبن الفاخر", color: "from-green-500/20 to-teal-500/20", count: products.filter(p => p.category === "tea-coffee").length },
+    { id: "olives", label: "زيتون سيوي", icon: "🫒", desc: "زيتون سيوي الفاخر بمختلف الأنواع", color: "from-green-500/20 to-lime-500/20", count: products.filter(p => p.category === "olives").length },
+    { id: "aromatic-oils", label: "زيوت عطرية", icon: "🌸", desc: "زيوت عطرية طبيعية نقية جديدة من نخبة", color: "from-violet-500/20 to-purple-500/20", count: products.filter(p => p.category === "aromatic-oils").length },
   ];
 
   const renderStars = (rating: number) => {
@@ -36,24 +49,28 @@ export function HomePage({ onAddToCart }: HomePageProps) {
 
   return (
     <div>
+      {/* Announcement Bar */}
+      <div className="bg-primary text-white text-center py-2 px-4 text-xs md:text-sm font-arabic">
+        🚚 توصيل لجميع أنحاء مصر | 📞 واتساب: {siteConfig.whatsappNumber} | 🎉 خصومات تصل إلى 38%
+      </div>
+
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-primary/5 via-cream to-white overflow-hidden">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMzAgMTBhMjAgMjAgMCAwIDEgMjAgMjAgMjAgMjAgMCAwIDEtMjAgMjAgMjAgMjAgMCAwIDEtMjAtMjAgMjAgMjAgMCAwIDEgMjAtMjB6IiBmaWxsPSIjMmQ1YTI3IiBmaWxsLW9wYWNpdHk9IjAuMDMiLz48L3N2Zz4=')] opacity-50" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Text */}
-            <div>
-              <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-sm font-bold px-4 py-2 rounded-full mb-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
+            <div className="order-2 lg:order-1">
+              <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-sm font-bold px-4 py-2 rounded-full mb-4">
                 <Leaf className="w-4 h-4" />
-                <span>منتجات طبيعية 100% من مصر</span>
+                <span>منتجات طبيعية 100% من مطروح وسيوة</span>
               </div>
-              <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-primary-dark leading-tight mb-6">
-                🌿 عالم <span className="text-gold">نُخبة</span>
+              <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-primary-dark leading-tight mb-4">
+                🌿 <span className="text-gold">نُخبة</span>
                 <br />
-                <span className="text-xl md:text-2xl lg:text-3xl text-primary">حيثُ تلتقي الأصالة بالجودة الطبيعية</span>
+                <span className="text-xl md:text-2xl text-primary">خيرات سيوة ومطروح و زيت الزيتون</span>
               </h1>
-              <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-8 max-w-2xl">
-                في زمنٍ غابت فيه المكونات الحقيقية أطلقنا نُخبة | NOKHBA لنكون جسركم الموثوق نحو الطبيعة البكر وخيراتها الصافية. نحن لا نبيع مجرد منتجات بل ننتقي لكم نمط حياة صحي متكامل.
+              <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-6 max-w-2xl">
+                متجرك الأول لأجود المنتجات الطبيعية المستخرجة من واحات سيوة ومطروح. زيت زيتون بكر ممتاز، زيوت طبيعية، عسل نحل، بهارات عضوية، ومنتجات طبيعية مختارة بعناية.
               </p>
               <div className="flex flex-wrap gap-3">
                 <Link
@@ -63,26 +80,27 @@ export function HomePage({ onAddToCart }: HomePageProps) {
                   تسوق الآن
                   <ArrowLeft className="w-4 h-4 rtl-flip" />
                 </Link>
-                <Link
-                  to="/products"
-                  className="inline-flex items-center gap-2 border-2 border-primary/20 text-primary px-6 py-3 rounded-xl font-bold hover:bg-primary/5 transition-colors"
+                <a
+                  href={siteConfig.social.whatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-green-500 text-white px-6 py-3 rounded-xl font-bold hover:bg-green-600 transition-colors shadow-lg"
                 >
-                  شاهد المنتجات
-                </Link>
+                  <MessageCircle className="w-4 h-4" />
+                  واتساب: {siteConfig.whatsappNumber}
+                </a>
               </div>
             </div>
 
             {/* Hero Image */}
-            <div className="relative">
+            <div className="relative order-1 lg:order-2">
               <div className="relative aspect-square rounded-2xl bg-gradient-to-br from-primary/20 via-gold/10 to-primary/5 flex items-center justify-center overflow-hidden border border-primary/10">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--color-primary)_0%,_transparent_70%)] opacity-5" />
                 <div className="text-center p-8">
                   <div className="text-8xl mb-4">🌿</div>
                   <p className="text-2xl font-bold text-primary font-arabic">نُخبة</p>
-                  <p className="text-gray-500 font-arabic text-sm">منتجات طبيعية من القلب</p>
+                  <p className="text-gray-500 font-arabic text-sm">خيرات سيوة ومطروح</p>
                 </div>
               </div>
-              {/* Floating badges */}
               <div className="absolute -top-3 -right-3 bg-white rounded-xl shadow-lg p-3 border border-gray-100">
                 <div className="flex items-center gap-2">
                   <Leaf className="w-5 h-5 text-primary" />
@@ -100,157 +118,277 @@ export function HomePage({ onAddToCart }: HomePageProps) {
         </div>
       </section>
 
-      {/* Categories Section */}
-      <section className="py-16 bg-white">
+      {/* Stats Bar */}
+      <section className="bg-primary-dark text-white py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-primary-dark font-arabic mb-2">
-              🌟 ماذا تجدون في <span className="text-gold">نُخبة</span>؟
-            </h2>
-            <p className="text-gray-500 font-arabic">تشكيلة واسعة من أجود المنتجات الطبيعية</p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Card 1 - Olive Oil */}
-            <Link to="/products?category=olive-oil" className="bg-cream rounded-2xl p-6 border border-primary/10 hover:border-primary/30 transition-all hover:shadow-lg group block">
-              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 text-3xl group-hover:scale-110 transition-transform">
-                🫒
-              </div>
-              <h3 className="text-lg font-bold text-primary-dark mb-2 font-arabic">زيت الزيتون</h3>
-              <p className="text-gray-600 text-sm leading-relaxed font-arabic">
-                أجود أنواع زيت الزيتون البكر الممتاز من أفضل المزارع المصرية، معصور على البارد للحفاظ على كل العناصر الغذائية والنكهة الأصيلة.
-              </p>
-            </Link>
-
-            {/* Card 2 - Thyme */}
-            <Link to="/products?category=thyme" className="bg-cream rounded-2xl p-6 border border-primary/10 hover:border-primary/30 transition-all hover:shadow-lg group block">
-              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 text-3xl group-hover:scale-110 transition-transform">
-                🌿
-              </div>
-              <h3 className="text-lg font-bold text-primary-dark mb-2 font-arabic">الزعتر</h3>
-              <p className="text-gray-600 text-sm leading-relaxed font-arabic">
-                زعتر مصري أصيل مخلوط بعناية من أجود أنواع الأعشاب الطبيعية والسمسم المحمص.
-              </p>
-            </Link>
-
-            {/* Card 3 - Farm & Honey */}
-            <Link to="/products?category=honey-dairy" className="bg-cream rounded-2xl p-6 border border-primary/10 hover:border-primary/30 transition-all hover:shadow-lg group block">
-              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 text-3xl group-hover:scale-110 transition-transform">
-                🍯
-              </div>
-              <h3 className="text-lg font-bold text-primary-dark mb-2 font-arabic">خيرات المزرعة والمناحل</h3>
-              <p className="text-gray-600 text-sm leading-relaxed font-arabic">
-                السمن الفلاحي الأصلي (الجاموسي والبقري) المرمل وعسل النحل الطبيعي النقي بقطفاته الفاخرة وشمع النحل.
-              </p>
-            </Link>
-
-            {/* Card 4 - Healthy Bakery */}
-            <Link to="/products?category=healthy-bakery" className="bg-cream rounded-2xl p-6 border border-primary/10 hover:border-primary/30 transition-all hover:shadow-lg group block">
-              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 text-3xl group-hover:scale-110 transition-transform">
-                🍞
-              </div>
-              <h3 className="text-lg font-bold text-primary-dark mb-2 font-arabic">نظام الطيبات الصحي</h3>
-              <p className="text-gray-600 text-sm leading-relaxed font-arabic">
-                العيش كامل الحبة والمخبوزات الصحية المصنوعة بعناية فائقة لغذاء متوازن وجسد حيوي.
-              </p>
-            </Link>
-
-            {/* Card 5 - Beauty */}
-            <Link to="/products?category=natural-oils" className="bg-cream rounded-2xl p-6 border border-primary/10 hover:border-primary/30 transition-all hover:shadow-lg group block">
-              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 text-3xl group-hover:scale-110 transition-transform">
-                🌸
-              </div>
-              <h3 className="text-lg font-bold text-primary-dark mb-2 font-arabic">نقاء الطبيعة للعناية والتجميل</h3>
-              <p className="text-gray-600 text-sm leading-relaxed font-arabic">
-                زيوت طبيعية ومستخلصات عشبية جبلية للعناية بالبشرة والشعر ومستحضرات تجميل آمنة 100%.
-              </p>
-            </Link>
-
-            {/* Card 6 - Herbs & Spices */}
-            <Link to="/products?category=herbal" className="bg-cream rounded-2xl p-6 border border-primary/10 hover:border-primary/30 transition-all hover:shadow-lg group block">
-              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 text-3xl group-hover:scale-110 transition-transform">
-                🌶️
-              </div>
-              <h3 className="text-lg font-bold text-primary-dark mb-2 font-arabic">أعشاب وتوابل</h3>
-              <p className="text-gray-600 text-sm leading-relaxed font-arabic">
-                تشكيلة من الأعشاب الطبيعية والتوابل المطحونة الطازجة لإضفاء النكهة الأصيلة على أطباقك.
-              </p>
-            </Link>
-
-            {/* Card 7 - Natural Soap */}
-            <Link to="/products?category=soap" className="bg-cream rounded-2xl p-6 border border-primary/10 hover:border-primary/30 transition-all hover:shadow-lg group block">
-              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 text-3xl group-hover:scale-110 transition-transform">
-                🧼
-              </div>
-              <h3 className="text-lg font-bold text-primary-dark mb-2 font-arabic">الصابون الطبيعي</h3>
-              <p className="text-gray-600 text-sm leading-relaxed font-arabic">
-                صابون طبيعي يدوي الصنع بمكونات عضوية 100% — يغذي البشرة بعمق دون مواد كيميائية قاسية.
-              </p>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Coming Soon Video Banner */}
-      <section className="py-12 bg-gradient-to-r from-primary/5 to-gold/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-r from-primary to-primary-dark rounded-2xl p-8 md:p-12 text-center text-white relative overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(201,168,76,0.2)_0%,_transparent_70%)]" />
-            <div className="relative z-10">
-              <Play className="w-12 h-12 mx-auto mb-4 text-gold" />
-              <h3 className="text-2xl md:text-3xl font-bold mb-3 font-arabic">🎬 انتظرونا قريباً..</h3>
-              <p className="text-white/80 max-w-2xl mx-auto text-lg font-arabic">
-                لأنكم تستحقون الأفضل نجهّز لكم حالياً انطلاقة بصرية وفنية غاية في الاحترافية. قريباً جداً سنأخذكم في جولات مرئية حية وفيديوهات تكشف أسرار منتجاتنا.
-              </p>
-              <div className="inline-flex items-center gap-2 bg-gold/20 text-gold px-6 py-2 rounded-full mt-6 text-sm font-bold">
-                قريباً
-              </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            <div>
+              <div className="text-2xl md:text-3xl font-bold text-gold">{products.length}+</div>
+              <div className="text-xs md:text-sm text-white/70 font-arabic">منتج طبيعي</div>
+            </div>
+            <div>
+              <div className="text-2xl md:text-3xl font-bold text-gold">{testimonials.length}K+</div>
+              <div className="text-xs md:text-sm text-white/70 font-arabic">عميل سعيد</div>
+            </div>
+            <div>
+              <div className="text-2xl md:text-3xl font-bold text-gold">{siteConfig.categories.length - 1}</div>
+              <div className="text-xs md:text-sm text-white/70 font-arabic">قسم</div>
+            </div>
+            <div>
+              <div className="text-2xl md:text-3xl font-bold text-gold">98%</div>
+              <div className="text-xs md:text-sm text-white/70 font-arabic">تقييم إيجابي</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Best Sellers */}
-      <section className="py-16 bg-white">
+      {/* Categories Section */}
+      <section className="py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-primary-dark font-arabic mb-2">
+              🌟 تصفح <span className="text-gold">أقسام</span> نُخبة
+            </h2>
+            <p className="text-gray-500 font-arabic">تشكيلة واسعة من أجود المنتجات الطبيعية من مطروح وسيوة</p>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
+            {featuredCategories.map((cat) => (
+              <Link
+                key={cat.id}
+                to={`/products?category=${cat.id}`}
+                className="bg-gradient-to-br from-white to-cream rounded-xl p-4 border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all group text-center"
+              >
+                <div className={`w-12 h-12 mx-auto rounded-xl bg-gradient-to-br ${cat.color} flex items-center justify-center mb-2 text-2xl group-hover:scale-110 transition-transform`}>
+                  {cat.icon}
+                </div>
+                <h3 className="text-xs font-bold text-primary-dark mb-1 font-arabic leading-tight">{cat.label}</h3>
+                <p className="text-[10px] text-gray-400 font-arabic">{cat.count} منتج</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* New Arrivals - Aromatic Oils */}
+      {newArrivals.length > 0 && (
+        <section className="py-12 bg-gradient-to-br from-purple-50 to-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <h2 className="text-2xl md:text-3xl font-bold text-primary-dark font-arabic">
+                  ✨ <span className="text-gold">جديد</span> نُخبة
+                </h2>
+                <p className="text-gray-500 font-arabic text-sm">أحدث المنتجات العطرية الطبيعية</p>
+              </div>
+              <Link to="/products?category=aromatic-oils" className="text-primary text-sm font-bold hover:underline font-arabic">
+                عرض الكل ←
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {newArrivals.map((product) => (
+                <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Offers Section */}
+      <section className="py-12 bg-gradient-to-br from-red-50 to-orange-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-primary-dark font-arabic">الأكثر مبيعاً</h2>
-              <p className="text-gray-500 text-sm mt-1 font-arabic">منتجات نالت ثقة عملائنا</p>
+              <div className="flex items-center gap-2">
+                <Timer className="w-6 h-6 text-red-500" />
+                <h2 className="text-2xl md:text-3xl font-bold text-primary-dark font-arabic">
+                  🏷️ <span className="text-red-500">العروض</span> و الخصومات
+                </h2>
+              </div>
+              <p className="text-gray-500 font-arabic text-sm">خصومات تصل إلى 38% لفترة محدودة</p>
             </div>
-            <Link to="/products" className="text-primary hover:text-primary-light font-medium text-sm flex items-center gap-1 font-arabic">
-              عرض الكل
-              <ArrowLeft className="w-4 h-4 rtl-flip" />
+            <Link to="/products?category=offers" className="text-red-500 text-sm font-bold hover:underline font-arabic">
+              عرض الكل ←
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {bestSellers.map((product) => (
+            {offersProducts.map((product) => (
               <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
             ))}
           </div>
         </div>
       </section>
 
+      {/* Best Sellers */}
+      <section className="py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold text-primary-dark font-arabic">
+                🌟 <span className="text-gold">الأكثر</span> مبيعاً
+              </h2>
+              <p className="text-gray-500 font-arabic text-sm">منتجات نالت ثقة عملائنا</p>
+            </div>
+            <Link to="/products" className="text-primary text-sm font-bold hover:underline font-arabic">
+              عرض الكل ←
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {topSelling.map((product) => (
+              <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Olive Oil Section */}
+      <section className="py-12 bg-cream">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold text-primary-dark font-arabic">
+                🫒 <span className="text-gold">زيت زيتون</span> بكر ممتاز
+              </h2>
+              <p className="text-gray-500 font-arabic text-sm">من مطروح وسيوة - معصور على البارد</p>
+            </div>
+            <Link to="/products?category=olive-oil" className="text-primary text-sm font-bold hover:underline font-arabic">
+              عرض الكل ←
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {oliveOilProducts.map((product) => (
+              <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Hair Oils Section */}
+      <section className="py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold text-primary-dark font-arabic">
+                💎 <span className="text-gold">باكدج زيوت الشعر</span> الخطير
+              </h2>
+              <p className="text-gray-500 font-arabic text-sm">زيوت أصلية مستوردة للعناية الفائقة بالشعر</p>
+            </div>
+            <Link to="/products?category=hair-oils" className="text-primary text-sm font-bold hover:underline font-arabic">
+              عرض الكل ←
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {hairOilProducts.map((product) => (
+              <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Natural Oils Section */}
+      <section className="py-12 bg-gradient-to-br from-amber-50 to-orange-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold text-primary-dark font-arabic">
+                🫗 <span className="text-gold">زيوت</span> طبيعية
+              </h2>
+              <p className="text-gray-500 font-arabic text-sm">مجموعة واسعة من الزيوت الطبيعية للعناية بالبشرة والشعر</p>
+            </div>
+            <Link to="/products?category=natural-oils" className="text-primary text-sm font-bold hover:underline font-arabic">
+              عرض الكل ←
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {naturalOilsProducts.map((product) => (
+              <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Soap Section */}
+      <section className="py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold text-primary-dark font-arabic">
+                🧼 <span className="text-gold">صابون</span> العناية بالبشرة
+              </h2>
+              <p className="text-gray-500 font-arabic text-sm">صابون طبيعي يدوي الصنع</p>
+            </div>
+            <Link to="/products?category=soap" className="text-primary text-sm font-bold hover:underline font-arabic">
+              عرض الكل ←
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {soapProducts.map((product) => (
+              <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Honey & Dates Section */}
+      <section className="py-12 bg-cream">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-8">
+            <div>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold text-primary-dark font-arabic">
+                  🍯 <span className="text-gold">عسل نحل</span> والطحينه الخام
+                </h2>
+                <Link to="/products?category=honey" className="text-primary text-sm font-bold hover:underline font-arabic">
+                  عرض الكل ←
+                </Link>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {honeyProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
+                ))}
+              </div>
+            </div>
+            <div>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold text-primary-dark font-arabic">
+                  🌴 <span className="text-gold">تمر</span> سيوه
+                </h2>
+                <Link to="/products?category=dates" className="text-primary text-sm font-bold hover:underline font-arabic">
+                  عرض الكل ←
+                </Link>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {datesProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Why Choose Us */}
-      <section className="py-16 bg-cream">
+      <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <h2 className="text-2xl md:text-3xl font-bold text-primary-dark font-arabic mb-2">
-              لماذا تختار <span className="text-gold">نُخبة</span>؟
+              ✨ لماذا <span className="text-gold">نُخبة</span>؟
             </h2>
-            <p className="text-gray-500 font-arabic">أسباب تجعلنا الخيار الأمثل لمنتجاتك الطبيعية</p>
+            <p className="text-gray-500 font-arabic">نحن نقدم لكم أفضل تجربة تسوق للمنتجات الطبيعية</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {whyChooseUs.map((item, i) => (
-              <div key={i} className="bg-white rounded-2xl p-6 text-center border border-gray-100 hover:border-primary/20 transition-all hover:shadow-lg">
-                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
+              <div key={i} className="bg-cream rounded-2xl p-6 border border-primary/10 text-center hover:shadow-lg transition-all">
+                <div className="w-14 h-14 mx-auto rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
                   {item.icon === "truck" && <Truck className="w-7 h-7 text-primary" />}
                   {item.icon === "leaf" && <Leaf className="w-7 h-7 text-primary" />}
                   {item.icon === "badge-check" && <BadgeCheck className="w-7 h-7 text-primary" />}
-                  {item.icon === "origin" && <MapPin className="w-7 h-7 text-primary" />}
+                  {item.icon === "origin" && <Package className="w-7 h-7 text-primary" />}
+                  {item.icon === "price" && <Award className="w-7 h-7 text-primary" />}
+                  {item.icon === "support" && <MessageCircle className="w-7 h-7 text-primary" />}
                 </div>
-                <h3 className="text-base font-bold text-primary-dark mb-2 font-arabic">{item.title}</h3>
-                <p className="text-gray-600 text-sm font-arabic">{item.description}</p>
+                <h3 className="text-lg font-bold text-primary-dark mb-2 font-arabic">{item.title}</h3>
+                <p className="text-gray-600 text-sm leading-relaxed font-arabic">{item.description}</p>
               </div>
             ))}
           </div>
@@ -258,41 +396,68 @@ export function HomePage({ onAddToCart }: HomePageProps) {
       </section>
 
       {/* Testimonials */}
-      <section className="py-16 bg-white">
+      <section className="py-12 bg-gradient-to-br from-primary/5 to-cream">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-primary-dark font-arabic">آراء عملائنا</h2>
-              <p className="text-gray-500 text-sm mt-1 font-arabic">ماذا يقولون عن منتجاتنا</p>
-            </div>
-            <Link to="/testimonials" className="text-primary hover:text-primary-light font-medium text-sm flex items-center gap-1 font-arabic">
-              عرض الكل
-              <ArrowLeft className="w-4 h-4 rtl-flip" />
-            </Link>
+          <div className="text-center mb-10">
+            <h2 className="text-2xl md:text-3xl font-bold text-primary-dark font-arabic mb-2">
+              💬 آراء <span className="text-gold">عملائنا</span> الكرام
+            </h2>
+            <p className="text-gray-500 font-arabic">ما يقوله عملاؤنا عن منتجات نُخبة</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {testimonials.slice(0, 3).map((t) => (
-              <div key={t.id} className="bg-cream rounded-2xl p-6 border border-gray-100">
-                <div className="flex items-center gap-1 mb-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {testimonials.slice(0, 4).map((t) => (
+              <div key={t.id} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:shadow-md transition-all">
+                <div className="flex items-center gap-1 mb-2">
                   {renderStars(t.rating)}
                 </div>
-                <p className="text-gray-700 text-sm leading-relaxed mb-4 font-arabic">"{t.text}"</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
+                <p className="text-gray-600 text-sm leading-relaxed mb-3 font-arabic line-clamp-3">"{t.text}"</p>
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
                     {t.name.charAt(0)}
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-primary-dark font-arabic">{t.name}</p>
-                    <p className="text-xs text-gray-500 font-arabic">{t.location}</p>
+                    <p className="text-sm font-bold text-gray-800 font-arabic">{t.name}</p>
+                    <p className="text-xs text-gray-400 font-arabic">{t.location}</p>
                   </div>
                 </div>
-                {t.product && (
-                  <div className="mt-3 text-xs text-gold font-medium font-arabic">
-                    ✅ {t.product}
-                  </div>
-                )}
               </div>
             ))}
+          </div>
+          <div className="text-center mt-8">
+            <Link to="/testimonials" className="text-primary font-bold text-sm hover:underline font-arabic">
+              عرض جميع التقييمات ←
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 bg-primary relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--color-gold)_0%,_transparent_60%)] opacity-10" />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <h2 className="text-2xl md:text-4xl font-bold text-white mb-4 font-arabic">
+            🌿 انضم لعائلة <span className="text-gold">نُخبة</span>
+          </h2>
+          <p className="text-white/70 text-lg mb-8 font-arabic">
+            اطلب الآن واستمتع بأجود المنتجات الطبيعية من مطروح وسيوة مع توصيل لجميع أنحاء مصر
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link
+              to="/products"
+              className="inline-flex items-center gap-2 bg-gold text-primary-dark px-8 py-4 rounded-xl font-bold text-lg hover:bg-gold-light transition-colors shadow-xl"
+            >
+              تسوق الآن
+              <ShoppingCart className="w-5 h-5" />
+            </Link>
+            <a
+              href={siteConfig.social.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-white/10 text-white border-2 border-white/20 px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/20 transition-colors"
+            >
+              <MessageCircle className="w-5 h-5" />
+              {siteConfig.whatsappNumber}
+            </a>
           </div>
         </div>
       </section>

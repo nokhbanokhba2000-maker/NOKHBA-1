@@ -1,4 +1,5 @@
 import { ShoppingCart, Star } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Product } from "../data/site";
 
 interface ProductCardProps {
@@ -18,32 +19,52 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
 
   const categoryIcons: Record<string, string> = {
     "olive-oil": "🫒",
-    "ghee": "🧈",
-    "honey-dairy": "🍯",
-    "healthy-bakery": "🍞",
-    "natural-oils": "🫗",
-    "skincare": "🧴",
-    "dates": "🌴",
-    "tea": "🫖",
-    "herbal": "🌿",
-    "nuts": "🥜",
     "offers": "🏷️",
+    "hair-oils": "💎",
+    "cosmetics": "💄",
+    "soap": "🧼",
+    "natural-oils": "🫗",
+    "dates": "🌴",
+    "spices": "🌶️",
+    "honey": "🍯",
+    "tea-coffee": "🫖",
+    "olives": "🫒",
+    "nuts": "🥜",
+    "henna": "🌿",
+    "herbal": "🌿",
+    "aromatic-oils": "🌸",
   };
 
+  const hasDiscount = product.originalPrice && product.originalPrice > product.price;
+
   return (
-    <div className="product-card bg-white rounded-xl border border-gray-100 overflow-hidden group">
+    <Link to={`/product/${product.id}`} className="product-card bg-white rounded-xl border border-gray-100 overflow-hidden group block">
       {/* Image */}
       <div className="relative h-48 bg-gradient-to-br from-primary/10 to-gold/10 flex items-center justify-center overflow-hidden">
-        <span className="text-6xl opacity-40 group-hover:scale-110 transition-transform duration-500">
-          {categoryIcons[product.category] || "🌿"}
-        </span>
+        {product.image && product.image.startsWith("http") ? (
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            loading="lazy"
+          />
+        ) : (
+          <span className="text-6xl opacity-40 group-hover:scale-110 transition-transform duration-500">
+            {categoryIcons[product.category] || "🌿"}
+          </span>
+        )}
         {product.badge && (
           <span className="absolute top-3 right-3 bg-gold text-primary-dark text-xs font-bold px-3 py-1 rounded-full font-arabic">
             {product.badge}
           </span>
         )}
+        {product.discount && (
+          <span className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full font-arabic">
+            -{product.discount}%
+          </span>
+        )}
         <button
-          onClick={() => onAddToCart(product)}
+          onClick={(e) => { e.preventDefault(); onAddToCart(product); }}
           className="absolute bottom-3 left-3 bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all transform translate-y-2 group-hover:translate-y-0 shadow-lg hover:bg-primary-light"
         >
           <ShoppingCart className="w-4 h-4" />
@@ -61,15 +82,20 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
         </h3>
         <p className="text-xs text-gray-500 mb-2 font-arabic">{product.weight}</p>
         <div className="flex items-center justify-between">
-          <span className="text-base font-bold text-primary">{product.price} <span className="text-xs">ج.م</span></span>
+          <div>
+            <span className="text-base font-bold text-primary">{product.price} <span className="text-xs">ج.م</span></span>
+            {hasDiscount && (
+              <span className="text-xs text-gray-400 line-through mr-2">{product.originalPrice} ج.م</span>
+            )}
+          </div>
           <button
-            onClick={() => onAddToCart(product)}
+            onClick={(e) => { e.preventDefault(); onAddToCart(product); }}
             className="text-xs bg-primary/10 text-primary px-3 py-1.5 rounded-lg hover:bg-primary hover:text-white transition-colors font-arabic font-medium"
           >
             أضف للسلة
           </button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
