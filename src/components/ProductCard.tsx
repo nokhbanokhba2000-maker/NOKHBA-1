@@ -80,6 +80,9 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
         <h3 className="text-sm font-bold text-gray-800 mb-1 line-clamp-2 font-arabic leading-relaxed">
           {product.name}
         </h3>
+        {product.origin && (
+          <p className="text-xs text-gray-400 mb-1 font-arabic">📍 {product.origin}</p>
+        )}
         <p className="text-xs text-gray-500 mb-2 font-arabic">{product.weight}</p>
         <div className="flex items-center justify-between">
           <div>

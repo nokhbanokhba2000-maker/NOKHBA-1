@@ -5,7 +5,7 @@ export const siteConfig = {
     "في زمنٍ غابت فيه المكونات الحقيقية أطلقنا نُخبة لنكون جسركم الموثوق نحو الطبيعة البكر وخيراتها الصافية.",
   phone: "+20 10 2369 6962",
   whatsappNumber: "01023696962",
-  address: "مرسى مطروح، مصر",
+  address: "مصر",
   email: "info@nokhba.com",
   social: {
     facebook: "https://facebook.com/nokhba",
@@ -2143,12 +2143,13 @@ export const products: Product[] = [
     price: 85,
     originalPrice: 120,
     weight: "30 مل",
-    image: "https://cos-aigc-default.agnes-ai.com/agnes/chat_attachment/3d42324e-c7e9-4c2b-a6ae-a48c4e621536/1784522958_889672c1.png",
+    image: "https://cos-aigc-default.agnes-ai.com/agnes/chat_attachment/3d42324e-c7e9-4c2b-a6ae-a48c4e621536/1784522971_cf23ee03.png",
     category: "aromatic-oils",
     badge: "جديد",
     rating: 5,
     reviews: 12,
     discount: 29,
+    origin: "نخبة NOKHBA",
   },
   {
     id: "yarrow-oil-nokhba",
@@ -2157,7 +2158,7 @@ export const products: Product[] = [
     price: 95,
     originalPrice: 130,
     weight: "30 مل",
-    image: "https://cos-aigc-default.agnes-ai.com/agnes/chat_attachment/3d42324e-c7e9-4c2b-a6ae-a48c4e621536/1784522958_889672c1.png",
+    image: "https://cos-aigc-default.agnes-ai.com/agnes/chat_attachment/3d42324e-c7e9-4c2b-a6ae-a48c4e621536/1784522971_cf23ee03.png",
     category: "aromatic-oils",
     badge: "جديد",
     rating: 5,
@@ -2171,7 +2172,7 @@ export const products: Product[] = [
     price: 90,
     originalPrice: 125,
     weight: "30 مل",
-    image: "https://cos-aigc-default.agnes-ai.com/agnes/chat_attachment/3d42324e-c7e9-4c2b-a6ae-a48c4e621536/1784522958_889672c1.png",
+    image: "https://cos-aigc-default.agnes-ai.com/agnes/chat_attachment/3d42324e-c7e9-4c2b-a6ae-a48c4e621536/1784522971_cf23ee03.png",
     category: "aromatic-oils",
     badge: "جديد",
     rating: 5,
@@ -2185,7 +2186,7 @@ export const products: Product[] = [
     price: 95,
     originalPrice: 130,
     weight: "30 مل",
-    image: "https://cos-aigc-default.agnes-ai.com/agnes/chat_attachment/3d42324e-c7e9-4c2b-a6ae-a48c4e621536/1784522958_889672c1.png",
+    image: "https://cos-aigc-default.agnes-ai.com/agnes/chat_attachment/3d42324e-c7e9-4c2b-a6ae-a48c4e621536/1784522971_cf23ee03.png",
     category: "aromatic-oils",
     badge: "جديد",
     rating: 5,
@@ -2205,6 +2206,7 @@ export const products: Product[] = [
     rating: 5,
     reviews: 6,
     discount: 17,
+    origin: "نخبة NOKHBA",
   },
   {
     id: "clove-nokhba",
@@ -2219,6 +2221,7 @@ export const products: Product[] = [
     rating: 5,
     reviews: 9,
     discount: 13,
+    origin: "نخبة NOKHBA",
   },
   {
     id: "rosemary-nokhba",
@@ -2233,6 +2236,7 @@ export const products: Product[] = [
     rating: 5,
     reviews: 11,
     discount: 18,
+    origin: "نخبة NOKHBA",
   },
   {
     id: "sweat-cream-nokhba",
@@ -2247,6 +2251,7 @@ export const products: Product[] = [
     rating: 5,
     reviews: 7,
     discount: 33,
+    origin: "نخبة NOKHBA",
   },
 
   // ====== زيت الزيتون من الصور المرفوعة ======
