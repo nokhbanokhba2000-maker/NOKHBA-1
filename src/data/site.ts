@@ -159,7 +159,7 @@ export const products: Product[] = [
   {
     id: "zait-kareem-super-extra-virgin",
     name: "🫒 زيت زيتون كريم – سوبر إكسترا فرجن",
-    description: "زيت زيتون بكر ممتاز فاخر من مطروح (محل كريم)، معصور على البارد، غني بمضادات الأكسدة والفوائد الصحية.",
+    description: "زيت زيتون بكر ممتاز فاخر من مطروح، معصور على البارد، غني بمضادات الأكسدة والفوائد الصحية.",
     price: 500,
     originalPrice: 600,
     sale_price: 500,
@@ -171,13 +171,13 @@ export const products: Product[] = [
     discount_percentage: 17,
     rating: 5.0,
     reviews: 12,
-    origin: "مطروح ( محل كريم )",
+    origin: "مطروح",
     inStock: true,
   },
   {
     id: "zait-bekr-kham-gargan-1l",
     name: "زيت زيتون بكر خام – جركن 1 لتر | مطروح",
-    description: "زيت زيتون بكر خام طبيعي 100% من مطروح (محل كريم)، معصور على البارد، مناسب للطبخ والاستخدام اليومي.",
+    description: "زيت زيتون بكر خام طبيعي 100% من مطروح، معصور على البارد، مناسب للطبخ والاستخدام اليومي.",
     price: 400,
     originalPrice: 450,
     sale_price: 400,
@@ -189,7 +189,7 @@ export const products: Product[] = [
     discount_percentage: 11,
     rating: null,
     reviews: 8,
-    origin: "مطروح ( محل كريم )",
+    origin: "مطروح",
     inStock: true,
   },
 
@@ -209,7 +209,7 @@ export const products: Product[] = [
     discount_percentage: 10,
     rating: 5.0,
     reviews: 6,
-    origin: "مطروح ( محل كريم )",
+    origin: "مطروح",
     inStock: true,
   },
   {
@@ -227,7 +227,7 @@ export const products: Product[] = [
     discount_percentage: 20,
     rating: null,
     reviews: 0,
-    origin: "مطروح ( محل كريم )",
+    origin: "مطروح",
     inStock: false,
   },
 
@@ -340,12 +340,12 @@ export const products: Product[] = [
     size: "200 جرام",
     weight: "200 جرام",
     image: "",
-    category: "tea-coffee",
+    category: "our-products",
     discount: 20,
     discount_percentage: 20,
     rating: null,
     reviews: 0,
-    origin: "مطروح ( محل كريم )",
+    origin: "مطروح",
     inStock: true,
   },
 
@@ -405,14 +405,14 @@ export const products: Product[] = [
     discount_percentage: 42,
     rating: null,
     reviews: 0,
-    origin: "مطروح ( محل كريم )",
+    origin: "مطروح",
     inStock: true,
   },
 
   // ===== عسل نحل والطحينه الخام (honey) =====
   {
     id: "asal-nahl-sidr-jabali",
-    name: "عسل نحل سدر جبلي طبيعي 100٪ من أجود الأنواع",
+    name: "عسل نحل سدر جبلي طبيعي 100٪",
     description: "عسل نحل سدر جبلي ليبي طبيعي 100%، من أجود أنواع العسل الجبلي.",
     price: 350,
     originalPrice: 450,
