@@ -180,16 +180,16 @@ export function ProductDetailPage({ onAddToCart }: ProductDetailPageProps) {
                 </>
               )}
 
-              {/* WhatsApp Order */}
+              {/* WhatsApp Contact - informational only, not order */}
               {product.inStock !== false && (
                 <a
-                  href={`${siteConfig.social.whatsapp}?text=${encodeURIComponent(`أريد طلب: ${product.name}${itemWeight ? ` (${itemWeight})` : ""} - ${currentPrice} ج.م`)}`}
+                  href={siteConfig.social.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full flex items-center justify-center gap-2 mt-3 py-3 rounded-xl font-bold bg-green-50 text-green-700 border border-green-200 hover:bg-green-100 transition-colors"
                 >
                   <MessageCircle className="w-5 h-5" />
-                  طلب عبر واتساب
+                  استفسار عبر واتساب
                 </a>
               )}
 

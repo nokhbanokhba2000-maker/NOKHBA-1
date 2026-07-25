@@ -1,4 +1,5 @@
-import { X, Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
+import { X, Minus, Plus, ShoppingCart, Trash2, ArrowLeft } from "lucide-react";
+import { Link } from "react-router-dom";
 import { CartItem, siteConfig } from "../data/site";
 
 interface CartDrawerProps {
@@ -8,6 +9,13 @@ interface CartDrawerProps {
   onUpdateQuantity: (productId: string, delta: number) => void;
   onRemove: (productId: string) => void;
 }
+
+const categoryIcons: Record<string, string> = {
+  "olive-oil": "🫒", "offers": "🏷️", "hair-oils": "💎", "cosmetics": "💄",
+  "soap": "🧼", "natural-oils": "🫗", "dates": "🌴", "spices": "🌶️",
+  "honey": "🍯", "tea-coffee": "🫖", "olives": "🫒", "nuts": "🥜",
+  "henna": "🌿", "herbal": "🌿", "aromatic-oils": "🌸", "our-products": "⭐",
+};
 
 export function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, onRemove }: CartDrawerProps) {
   const total = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
@@ -38,6 +46,17 @@ export function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, onRemove 
             </button>
           </div>
 
+          {/* Continue Shopping Link */}
+          <div className="px-4 pt-3">
+            <button
+              onClick={onClose}
+              className="text-primary text-xs font-bold hover:underline flex items-center gap-1 font-arabic"
+            >
+              <ArrowLeft className="w-3 h-3 rtl-flip" />
+              اضغط هنا للمتابعة في المتجر
+            </button>
+          </div>
+
           {/* Items */}
           <div className="flex-1 overflow-y-auto p-4">
             {items.length === 0 ? (
@@ -45,6 +64,13 @@ export function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, onRemove 
                 <ShoppingCart className="w-16 h-16 mb-4 opacity-50" />
                 <p className="text-lg font-arabic">سلتك فارغة</p>
                 <p className="text-sm mt-1 font-arabic">أضف منتجاتك المفضلة هنا</p>
+                <Link
+                  to="/products"
+                  onClick={onClose}
+                  className="mt-4 px-6 py-2 rounded-xl bg-primary text-white text-sm font-bold font-arabic"
+                >
+                  تسوق الآن
+                </Link>
               </div>
             ) : (
               <div className="space-y-3">
@@ -52,7 +78,7 @@ export function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, onRemove 
                   <div key={item.product.id} className="flex gap-3 p-3 rounded-xl bg-gray-50 border border-gray-100">
                     {/* Product Image Placeholder */}
                     <div className="w-20 h-20 rounded-lg bg-gradient-to-br from-primary/20 to-gold/20 flex items-center justify-center shrink-0">
-                      <span className="text-2xl">🌿</span>
+                      <span className="text-2xl">{categoryIcons[item.product.category] || "🌿"}</span>
                     </div>
 
                     <div className="flex-1 min-w-0">
@@ -97,9 +123,14 @@ export function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, onRemove 
                 <span className="text-gray-600 font-arabic">المجموع</span>
                 <span className="text-lg font-bold text-primary">{total} ج.م</span>
               </div>
-              <button className="w-full py-3 rounded-xl bg-primary text-white font-bold hover:bg-primary-light transition-colors font-arabic">
-                إتمام الطلب
-              </button>
+              <Link
+                to="/checkout"
+                onClick={onClose}
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-primary text-white font-bold hover:bg-primary-light transition-colors font-arabic"
+              >
+                <ShoppingCart className="w-5 h-5" />
+                🛒 إتمام الشراء
+              </Link>
               <p className="text-center text-xs text-gray-400 font-arabic">
                 الشحن سيتم حسابه عند الدفع
               </p>

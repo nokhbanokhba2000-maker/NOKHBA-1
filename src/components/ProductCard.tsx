@@ -1,4 +1,4 @@
-import { MessageCircle, Star } from "lucide-react";
+import { ShoppingCart, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Product } from "../data/site";
 
@@ -43,9 +43,11 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
   const originalPriceValue = product.originalPrice ?? product.price;
   const discountValue = product.discount_percentage ?? product.discount ?? 0;
 
-  const whatsappMessage = encodeURIComponent(
-    `أريد طلب: ${product.name}${itemWeight ? ` (${itemWeight})` : ""} - ${currentPrice} ج.م`
-  );
+  const handleAddClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onAddToCart(product);
+  };
 
   return (
     <div className="group relative">
@@ -128,24 +130,20 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
             )}
           </div>
 
-          {/* WhatsApp Order Button */}
+          {/* Add to Cart Button - replaces WhatsApp */}
           {product.inStock !== false ? (
-            <a
-              href={`https://wa.me/201023696962?text=${whatsappMessage}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="flex items-center justify-center gap-2 w-full bg-green-700 hover:bg-green-800 text-white text-sm font-bold py-2.5 rounded-xl transition-all duration-300 shadow-lg shadow-green-700/20 font-arabic"
+            <button
+              onClick={handleAddClick}
+              className="flex items-center justify-center gap-2 w-full bg-primary hover:bg-primary-light text-white text-sm font-bold py-2.5 rounded-xl transition-all duration-300 shadow-lg shadow-primary/20 font-arabic"
             >
-              <MessageCircle className="w-4 h-4" />
-              اطلب عبر واتساب
-            </a>
+              <ShoppingCart className="w-4 h-4" />
+              أضف إلى السلة 🛒
+            </button>
           ) : (
             <button
               disabled
               className="flex items-center justify-center gap-2 w-full bg-gray-300 text-gray-500 text-sm font-bold py-2.5 rounded-xl cursor-not-allowed font-arabic"
             >
-              <MessageCircle className="w-4 h-4" />
               نفدت الكمية
             </button>
           )}

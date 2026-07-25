@@ -13,6 +13,7 @@ import { ShippingPage, ReturnsPage, PrivacyPage } from "./pages/PolicyPages";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { AboutPage } from "./pages/AboutPage";
 import { FaqPage } from "./pages/FaqPage";
+import { CheckoutPage } from "./pages/CheckoutPage";
 import type { Product, CartItem } from "./data/site";
 
 export function App() {
@@ -67,6 +68,7 @@ export function App() {
             <Route path="/shipping" element={<ShippingPage />} />
             <Route path="/returns" element={<ReturnsPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/checkout" element={<CheckoutPage cartItems={cartItems} cartCount={cartCount} cartOpen={cartOpen} setCartOpen={setCartOpen} updateQuantity={updateQuantity} removeFromCart={removeFromCart} />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>
