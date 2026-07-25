@@ -16,17 +16,25 @@ export function ProductDetailPage({ onAddToCart }: ProductDetailPageProps) {
 
   const relatedProducts = products.filter((p) => p.category === product?.category && p.id !== product?.id).slice(0, 4);
 
-  const renderStars = (rating: number, size: number = 5) => {
+  const renderStars = (rating: number | null | undefined, size: number = 5) => {
+    if (!rating) return null;
     return Array.from({ length: 5 }, (_, i) => (
       <Star
         key={i}
-        className={`w-${size} h-${size} ${i < rating ? "fill-gold text-gold" : "text-gray-200"}`}
+        className={`w-${size} h-${size} ${i < Math.round(rating) ? "fill-gold text-gold" : "text-gray-200"}`}
       />
     ));
   };
 
+  const itemWeight = product?.size || product?.weight || "";
+  const currentPrice = product?.sale_price ?? product?.price ?? 0;
+  const originalPriceValue = product?.originalPrice ?? product?.price ?? 0;
+  const hasDiscount = product?.discount_percentage && product.discount_percentage > 0;
+  const discountValue = product?.discount_percentage ?? product?.discount ?? 0;
+
   const handleAddToCart = () => {
     if (product) {
+      if (product.inStock === false) return;
       for (let i = 0; i < quantity; i++) {
         onAddToCart(product);
       }
@@ -52,8 +60,6 @@ export function ProductDetailPage({ onAddToCart }: ProductDetailPageProps) {
     "herbal": "🌿",
     "aromatic-oils": "🌸",
   };
-
-  const hasDiscount = product?.originalPrice && product.originalPrice > product.price;
 
   if (!product) {
     return (
@@ -115,7 +121,7 @@ export function ProductDetailPage({ onAddToCart }: ProductDetailPageProps) {
               </div>
 
               <h1 className="text-xl md:text-2xl font-bold text-primary-dark mb-2 font-arabic">{product.name}</h1>
-              <p className="text-gray-500 text-sm mb-2 font-arabic">{product.weight}</p>
+              <p className="text-gray-500 text-sm mb-2 font-arabic">{itemWeight}</p>
               {product.origin && (
                 <p className="text-xs text-gray-400 mb-2">📍 {product.origin}</p>
               )}
@@ -123,55 +129,69 @@ export function ProductDetailPage({ onAddToCart }: ProductDetailPageProps) {
 
               {/* Price */}
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-2xl md:text-3xl font-bold text-primary">{product.price} <span className="text-lg">ج.م</span></span>
+                <span className="text-2xl md:text-3xl font-bold text-primary">{currentPrice} <span className="text-lg">ج.م</span></span>
                 {hasDiscount && (
-                  <span className="text-lg text-gray-400 line-through">{product.originalPrice} ج.م</span>
+                  <span className="text-lg text-gray-400 line-through">{originalPriceValue} ج.م</span>
+                )}
+                {hasDiscount && (
+                  <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">-{discountValue}%</span>
                 )}
               </div>
 
-              {/* Quantity */}
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-sm font-bold text-gray-700 font-arabic">الكمية:</span>
-                <div className="flex items-center gap-1 border border-gray-200 rounded-xl">
-                  <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-10 h-10 flex items-center justify-center hover:bg-gray-50 rounded-xl transition-colors"
-                  >
-                    <Minus className="w-4 h-4" />
-                  </button>
-                  <span className="w-10 text-center font-bold text-lg">{quantity}</span>
-                  <button
-                    onClick={() => setQuantity(quantity + 1)}
-                    className="w-10 h-10 flex items-center justify-center hover:bg-gray-50 rounded-xl transition-colors"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
+              {/* In Stock Indicator */}
+              {product.inStock === false ? (
+                <div className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold bg-gray-200 text-gray-500 mb-4">
+                  نفدت الكمية
                 </div>
-              </div>
+              ) : (
+                <>
+                  {/* Quantity */}
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="text-sm font-bold text-gray-700 font-arabic">الكمية:</span>
+                    <div className="flex items-center gap-1 border border-gray-200 rounded-xl">
+                      <button
+                        onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                        className="w-10 h-10 flex items-center justify-center hover:bg-gray-50 rounded-xl transition-colors"
+                      >
+                        <Minus className="w-4 h-4" />
+                      </button>
+                      <span className="w-10 text-center font-bold text-lg">{quantity}</span>
+                      <button
+                        onClick={() => setQuantity(quantity + 1)}
+                        className="w-10 h-10 flex items-center justify-center hover:bg-gray-50 rounded-xl transition-colors"
+                      >
+                        <Plus className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
 
-              {/* Add to Cart */}
-              <button
-                onClick={handleAddToCart}
-                className={`w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold transition-all shadow-lg ${
-                  addedToCart
-                    ? "bg-green-500 text-white"
-                    : "bg-primary text-white hover:bg-primary-light shadow-primary/20"
-                }`}
-              >
-                <ShoppingCart className="w-5 h-5" />
-                {addedToCart ? "تمت الإضافة ✓" : "أضف إلى السلة"}
-              </button>
+                  {/* Add to Cart */}
+                  <button
+                    onClick={handleAddToCart}
+                    className={`w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold transition-all shadow-lg ${
+                      addedToCart
+                        ? "bg-green-500 text-white"
+                        : "bg-primary text-white hover:bg-primary-light shadow-primary/20"
+                    }`}
+                  >
+                    <ShoppingCart className="w-5 h-5" />
+                    {addedToCart ? "تمت الإضافة ✓" : "أضف إلى السلة"}
+                  </button>
+                </>
+              )}
 
               {/* WhatsApp Order */}
-              <a
-                href={`${siteConfig.social.whatsapp}?text=أريد طلب: ${product.name} (${product.weight}) - ${product.price} ج.م`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full flex items-center justify-center gap-2 mt-3 py-3 rounded-xl font-bold bg-green-50 text-green-700 border border-green-200 hover:bg-green-100 transition-colors"
-              >
-                <MessageCircle className="w-5 h-5" />
-                طلب عبر واتساب
-              </a>
+              {product.inStock !== false && (
+                <a
+                  href={`${siteConfig.social.whatsapp}?text=${encodeURIComponent(`أريد طلب: ${product.name}${itemWeight ? ` (${itemWeight})` : ""} - ${currentPrice} ج.م`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center gap-2 mt-3 py-3 rounded-xl font-bold bg-green-50 text-green-700 border border-green-200 hover:bg-green-100 transition-colors"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                  طلب عبر واتساب
+                </a>
+              )}
 
               {/* Product Features */}
               <div className="grid grid-cols-2 gap-3 mt-6">

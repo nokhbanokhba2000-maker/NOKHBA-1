@@ -1,4 +1,4 @@
-import { ShoppingCart, Star } from "lucide-react";
+import { MessageCircle, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Product } from "../data/site";
 
@@ -8,11 +8,12 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, onAddToCart }: ProductCardProps) {
-  const renderStars = (rating: number) => {
+  const renderStars = (rating: number | null | undefined) => {
+    if (!rating) return null;
     return Array.from({ length: 5 }, (_, i) => (
       <Star
         key={i}
-        className={`w-3.5 h-3.5 ${i < rating ? "fill-gold text-gold" : "text-gray-200"}`}
+        className={`w-3.5 h-3.5 ${i < Math.round(rating) ? "fill-gold text-gold" : "text-gray-200"}`}
       />
     ));
   };
@@ -33,72 +34,123 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
     "henna": "🌿",
     "herbal": "🌿",
     "aromatic-oils": "🌸",
+    "our-products": "⭐",
   };
 
-  const hasDiscount = product.originalPrice && product.originalPrice > product.price;
+  const itemWeight = product.size || product.weight || "";
+  const hasDiscount = product.discount_percentage && product.discount_percentage > 0;
+  const currentPrice = product.sale_price ?? product.price;
+  const originalPriceValue = product.originalPrice ?? product.price;
+  const discountValue = product.discount_percentage ?? product.discount ?? 0;
+
+  const whatsappMessage = encodeURIComponent(
+    `أريد طلب: ${product.name}${itemWeight ? ` (${itemWeight})` : ""} - ${currentPrice} ج.م`
+  );
 
   return (
-    <Link to={`/product/${product.id}`} className="product-card bg-white rounded-xl border border-gray-100 overflow-hidden group block">
-      {/* Image */}
-      <div className="relative h-48 bg-gradient-to-br from-primary/10 to-gold/10 flex items-center justify-center overflow-hidden">
-        {product.image && product.image.startsWith("http") ? (
-          <img
-            src={product.image}
-            alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-            loading="lazy"
-          />
-        ) : (
-          <span className="text-6xl opacity-40 group-hover:scale-110 transition-transform duration-500">
-            {categoryIcons[product.category] || "🌿"}
-          </span>
-        )}
-        {product.badge && (
-          <span className="absolute top-3 right-3 bg-gold text-primary-dark text-xs font-bold px-3 py-1 rounded-full font-arabic">
-            {product.badge}
-          </span>
-        )}
-        {product.discount && (
-          <span className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full font-arabic">
-            -{product.discount}%
-          </span>
-        )}
-        <button
-          onClick={(e) => { e.preventDefault(); onAddToCart(product); }}
-          className="absolute bottom-3 left-3 bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all transform translate-y-2 group-hover:translate-y-0 shadow-lg hover:bg-primary-light"
-        >
-          <ShoppingCart className="w-4 h-4" />
-        </button>
-      </div>
+    <div className="group relative">
+      {/* Glassmorphism Card */}
+      <Link
+        to={`/product/${product.id}`}
+        className="block relative overflow-hidden rounded-2xl bg-white/70 backdrop-blur-md border border-white/40 shadow-lg shadow-primary/5 hover:shadow-xl hover:shadow-primary/10 transition-all duration-500 hover:scale-[1.02]"
+      >
+        {/* Top Section with Icon */}
+        <div className="relative h-44 bg-gradient-to-br from-primary/5 via-gold/5 to-white/60 flex items-center justify-center overflow-hidden backdrop-blur-sm">
+          {/* Decorative glass circles */}
+          <div className="absolute -top-8 -right-8 w-24 h-24 bg-gold/10 rounded-full blur-xl" />
+          <div className="absolute -bottom-6 -left-6 w-20 h-20 bg-primary/10 rounded-full blur-xl" />
 
-      {/* Info */}
-      <div className="p-4">
-        <div className="flex items-center gap-1 mb-1">
-          {renderStars(product.rating)}
-          <span className="text-xs text-gray-400 mr-1">({product.reviews})</span>
+          {product.image && product.image.startsWith("http") ? (
+            <img
+              src={product.image}
+              alt={product.name}
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              loading="lazy"
+            />
+          ) : (
+            <span className="text-6xl opacity-60 group-hover:scale-125 transition-transform duration-700 drop-shadow-lg">
+              {categoryIcons[product.category] || "🌿"}
+            </span>
+          )}
+
+          {/* Discount Badge - Red */}
+          {hasDiscount && product.inStock !== false && (
+            <span className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg backdrop-blur-sm font-arabic">
+              -{discountValue}%
+            </span>
+          )}
+
+          {/* Out of Stock Badge - Gray */}
+          {product.inStock === false && (
+            <span className="absolute top-3 left-3 bg-gray-600/80 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg backdrop-blur-sm font-arabic">
+              نفدت الكمية
+            </span>
+          )}
         </div>
-        <h3 className="text-sm font-bold text-gray-800 mb-1 line-clamp-2 font-arabic leading-relaxed">
-          {product.name}
-        </h3>
-        {product.origin && (
-          <p className="text-xs text-gray-400 mb-1 font-arabic">📍 {product.origin}</p>
-        )}
-        <p className="text-xs text-gray-500 mb-2 font-arabic">{product.weight}</p>
-        <div className="flex items-center justify-between">
-          <div>
-            <span className="text-base font-bold text-primary">{product.price} <span className="text-xs">ج.م</span></span>
+
+        {/* Info Section */}
+        <div className="p-4 relative">
+          {/* Category Icon */}
+          <div className="text-3xl mb-2 text-center">
+            {categoryIcons[product.category] || "🌿"}
+          </div>
+
+          {/* Stars */}
+          {product.rating && product.rating > 0 && (
+            <div className="flex items-center justify-center gap-1 mb-2">
+              <div className="flex items-center gap-0.5">
+                {renderStars(product.rating)}
+              </div>
+              <span className="text-xs text-gray-400 mr-1">({product.reviews})</span>
+            </div>
+          )}
+
+          {/* Product Name */}
+          <h3 className="text-sm font-bold text-gray-800 mb-1.5 line-clamp-2 font-arabic leading-relaxed text-center">
+            {product.name}
+          </h3>
+
+          {/* Origin */}
+          {product.origin && (
+            <p className="text-xs text-gray-400 mb-1 text-center font-arabic">📍 {product.origin}</p>
+          )}
+
+          {/* Size/Weight */}
+          {itemWeight && (
+            <p className="text-xs text-gray-500 mb-3 text-center font-arabic">{itemWeight}</p>
+          )}
+
+          {/* Price */}
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <span className="text-lg font-bold text-primary">{currentPrice} <span className="text-xs">ج.م</span></span>
             {hasDiscount && (
-              <span className="text-xs text-gray-400 line-through mr-2">{product.originalPrice} ج.م</span>
+              <span className="text-sm text-gray-400 line-through">{originalPriceValue} ج.م</span>
             )}
           </div>
-          <button
-            onClick={(e) => { e.preventDefault(); onAddToCart(product); }}
-            className="text-xs bg-primary/10 text-primary px-3 py-1.5 rounded-lg hover:bg-primary hover:text-white transition-colors font-arabic font-medium"
-          >
-            أضف للسلة
-          </button>
+
+          {/* WhatsApp Order Button */}
+          {product.inStock !== false ? (
+            <a
+              href={`https://wa.me/201023696962?text=${whatsappMessage}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="flex items-center justify-center gap-2 w-full bg-green-700 hover:bg-green-800 text-white text-sm font-bold py-2.5 rounded-xl transition-all duration-300 shadow-lg shadow-green-700/20 font-arabic"
+            >
+              <MessageCircle className="w-4 h-4" />
+              اطلب عبر واتساب
+            </a>
+          ) : (
+            <button
+              disabled
+              className="flex items-center justify-center gap-2 w-full bg-gray-300 text-gray-500 text-sm font-bold py-2.5 rounded-xl cursor-not-allowed font-arabic"
+            >
+              <MessageCircle className="w-4 h-4" />
+              نفدت الكمية
+            </button>
+          )}
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }

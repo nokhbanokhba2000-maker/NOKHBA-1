@@ -2,11 +2,12 @@ import { Star } from "lucide-react";
 import { testimonials } from "../data/site";
 
 export function TestimonialsPage() {
-  const renderStars = (rating: number) => {
+  const renderStars = (rating: number | null | undefined) => {
+    if (!rating) return null;
     return Array.from({ length: 5 }, (_, i) => (
       <Star
         key={i}
-        className={`w-4 h-4 ${i < rating ? "fill-gold text-gold" : "text-gray-200"}`}
+        className={`w-4 h-4 ${i < Math.round(rating) ? "fill-gold text-gold" : "text-gray-200"}`}
       />
     ));
   };
@@ -52,21 +53,16 @@ export function TestimonialsPage() {
               <div className="flex items-center gap-1 mb-3">
                 {renderStars(t.rating)}
               </div>
-              <p className="text-gray-700 text-sm leading-relaxed mb-4 font-arabic">"{t.text}"</p>
+              <p className="text-gray-700 text-sm leading-relaxed mb-4 font-arabic">"{t.content}"</p>
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary-light flex items-center justify-center text-white font-bold text-lg">
                   {t.name.charAt(0)}
                 </div>
                 <div>
                   <p className="text-sm font-bold text-primary-dark font-arabic">{t.name}</p>
-                  <p className="text-xs text-gray-500 font-arabic">{t.location}</p>
+                  <p className="text-xs text-gray-500 font-arabic">{t.role}</p>
                 </div>
               </div>
-              {t.product && (
-                <div className="mt-3 pt-3 border-t border-gray-100 text-xs text-gold font-medium font-arabic">
-                  ✅ المنتج: {t.product}
-                </div>
-              )}
             </div>
           ))}
         </div>

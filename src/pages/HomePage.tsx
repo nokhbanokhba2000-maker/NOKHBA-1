@@ -38,11 +38,12 @@ export function HomePage({ onAddToCart }: HomePageProps) {
     { id: "aromatic-oils", label: "زيوت عطرية", icon: "🌸", desc: "زيوت عطرية طبيعية نقية جديدة من نخبة", color: "from-violet-500/20 to-purple-500/20", count: products.filter(p => p.category === "aromatic-oils").length },
   ];
 
-  const renderStars = (rating: number) => {
+  const renderStars = (rating: number | null | undefined) => {
+    if (!rating) return null;
     return Array.from({ length: 5 }, (_, i) => (
       <Star
         key={i}
-        className={`w-4 h-4 ${i < rating ? "fill-gold text-gold" : "text-gray-200"}`}
+        className={`w-4 h-4 ${i < Math.round(rating) ? "fill-gold text-gold" : "text-gray-200"}`}
       />
     ));
   };
@@ -410,14 +411,14 @@ export function HomePage({ onAddToCart }: HomePageProps) {
                 <div className="flex items-center gap-1 mb-2">
                   {renderStars(t.rating)}
                 </div>
-                <p className="text-gray-600 text-sm leading-relaxed mb-3 font-arabic line-clamp-3">"{t.text}"</p>
+                <p className="text-gray-600 text-sm leading-relaxed mb-3 font-arabic line-clamp-3">"{t.content}"</p>
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
                     {t.name.charAt(0)}
                   </div>
                   <div>
                     <p className="text-sm font-bold text-gray-800 font-arabic">{t.name}</p>
-                    <p className="text-xs text-gray-400 font-arabic">{t.location}</p>
+                    <p className="text-xs text-gray-400 font-arabic">{t.role}</p>
                   </div>
                 </div>
               </div>
