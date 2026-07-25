@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Phone, MapPin, Mail, Globe, Camera, MessageCircle, ShoppingBag } from "lucide-react";
+import { Phone, MapPin, Mail, Globe, Camera, MessageCircle, ShoppingBag, Hash } from "lucide-react";
 import { siteConfig } from "../data/site";
 
 export function Footer() {
@@ -24,13 +24,13 @@ export function Footer() {
               خيرات سيوة ومطروح و زيت الزيتون
             </p>
             <div className="flex gap-3 mt-4">
-              <a href={siteConfig.social.facebook} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-gold hover:text-primary-dark transition-colors">
+              <a href={siteConfig.social.facebook} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-gold hover:text-primary-dark transition-colors" title="فيسبوك">
                 <Globe className="w-4 h-4" />
               </a>
-              <a href={siteConfig.social.instagram} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-gold hover:text-primary-dark transition-colors">
-                <Camera className="w-4 h-4" />
+              <a href={siteConfig.whatsappChannel} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-gold hover:text-primary-dark transition-colors" title="قناة واتساب">
+                <Hash className="w-4 h-4" />
               </a>
-              <a href={siteConfig.social.whatsapp} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-gold hover:text-primary-dark transition-colors">
+              <a href={siteConfig.social.whatsapp} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-gold hover:text-primary-dark transition-colors" title="واتساب">
                 <MessageCircle className="w-4 h-4" />
               </a>
             </div>
@@ -45,6 +45,8 @@ export function Footer() {
               <li><Link to="/products?category=offers" className="text-white/70 hover:text-gold transition-colors text-sm font-arabic">العروض</Link></li>
               <li><Link to="/testimonials" className="text-white/70 hover:text-gold transition-colors text-sm font-arabic">آراء العملاء</Link></li>
               <li><Link to="/contact" className="text-white/70 hover:text-gold transition-colors text-sm font-arabic">تواصل معنا</Link></li>
+              <li><Link to="/shipping" className="text-white/70 hover:text-gold transition-colors text-sm font-arabic">سياسة الشحن</Link></li>
+              <li><Link to="/privacy" className="text-white/70 hover:text-gold transition-colors text-sm font-arabic">سياسة الخصوصية</Link></li>
             </ul>
           </div>
 
@@ -57,6 +59,7 @@ export function Footer() {
               <li><Link to="/products?category=hair-oils" className="text-white/70 hover:text-gold transition-colors text-sm font-arabic">💎 زيوت الشعر</Link></li>
               <li><Link to="/products?category=honey" className="text-white/70 hover:text-gold transition-colors text-sm font-arabic">🍯 عسل نحل</Link></li>
               <li><Link to="/products?category=dates" className="text-white/70 hover:text-gold transition-colors text-sm font-arabic">🌴 تمر</Link></li>
+              <li><Link to="/products?category=spices" className="text-white/70 hover:text-gold transition-colors text-sm font-arabic">🌶️ بهارات وتوابل</Link></li>
             </ul>
           </div>
 
@@ -81,9 +84,12 @@ export function Footer() {
                 <span className="font-arabic">{siteConfig.address}</span>
               </li>
             </ul>
-            {/* App badge */}
-            <div className="mt-4">
-              <a href={siteConfig.social.whatsapp} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 transition-colors rounded-lg px-4 py-2 text-xs text-white/80 font-arabic">
+            <div className="mt-4 space-y-2">
+              <a href={siteConfig.whatsappChannel} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-green-600/80 hover:bg-green-600 transition-colors rounded-lg px-4 py-2 text-xs text-white font-arabic w-full">
+                <Hash className="w-4 h-4" />
+                <span>قناة واتساب الرسمية</span>
+              </a>
+              <a href={siteConfig.social.whatsapp} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 transition-colors rounded-lg px-4 py-2 text-xs text-white/80 font-arabic w-full">
                 <ShoppingBag className="w-5 h-5" />
                 <span>اطلب عبر واتساب</span>
               </a>

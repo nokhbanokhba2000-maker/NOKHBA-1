@@ -10,6 +10,9 @@ import { ProductDetailPage } from "./pages/ProductDetailPage";
 import { TestimonialsPage } from "./pages/TestimonialsPage";
 import { ContactPage } from "./pages/ContactPage";
 import { ShippingPage, ReturnsPage, PrivacyPage } from "./pages/PolicyPages";
+import { NotFoundPage } from "./pages/NotFoundPage";
+import { AboutPage } from "./pages/AboutPage";
+import { FaqPage } from "./pages/FaqPage";
 import type { Product, CartItem } from "./data/site";
 
 export function App() {
@@ -59,9 +62,12 @@ export function App() {
             <Route path="/product/:productId" element={<ProductDetailPage onAddToCart={addToCart} />} />
             <Route path="/testimonials" element={<TestimonialsPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/faq" element={<FaqPage />} />
             <Route path="/shipping" element={<ShippingPage />} />
             <Route path="/returns" element={<ReturnsPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>
         <Footer />

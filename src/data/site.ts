@@ -5,10 +5,11 @@ export const siteConfig = {
     "في زمنٍ غابت فيه المكونات الحقيقية أطلقنا نُخبة لنكون جسركم الموثوق نحو الطبيعة البكر وخيراتها الصافية.",
   phone: "+20 10 2369 6962",
   whatsappNumber: "01023696962",
+  whatsappChannel: "https://whatsapp.com/channel/0029Vb8PH4B2ER6dkSly7J0c",
   address: "مصر",
   email: "info@nokhba.com",
   social: {
-    facebook: "https://facebook.com/nokhba",
+    facebook: "https://www.facebook.com/profile.php?id=61591911367593&locale=de_DE",
     whatsapp: "https://wa.me/201023696962",
     instagram: "https://instagram.com/nokhba",
     twitter: "https://x.com/nokhba",
@@ -16,7 +17,9 @@ export const siteConfig = {
   nav: [
     { label: "الرئيسية", href: "/" },
     { label: "المنتجات", href: "/products" },
+    { label: "العروض", href: "/products?category=offers" },
     { label: "آراء العملاء", href: "/testimonials" },
+    { label: "عن نُخبة", href: "/about" },
     { label: "تواصل معنا", href: "/contact" },
   ],
   categories: [

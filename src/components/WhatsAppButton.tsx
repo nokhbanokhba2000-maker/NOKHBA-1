@@ -2,11 +2,14 @@ import { MessageCircle, Phone } from "lucide-react";
 import { siteConfig } from "../data/site";
 
 export function WhatsAppButton() {
+  const orderMessage = "مرحباً نُخبة! أريد الاستفسار عن منتجاتكم 🌿";
+  const whatsappUrl = `https://wa.me/201023696962?text=${encodeURIComponent(orderMessage)}`;
+
   return (
     <>
       {/* WhatsApp Button */}
       <a
-        href={siteConfig.social.whatsapp}
+        href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 left-6 z-50 w-14 h-14 rounded-full bg-green-500 text-white flex items-center justify-center shadow-lg hover:bg-green-600 transition-colors whatsapp-pulse"
